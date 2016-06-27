@@ -16,8 +16,8 @@ export LC_CTYPE=en_US.UTF-8
 # Default User Setting.
 # /home/thruthesky/www will be the default server root.
 # user_password is the default password of database root.
-user=$1
-user_password=$2
+read -p "emp username: " user
+read -p "emp password: " user_password
 
 # TEST
 # Uninstalling Enginx, PHP, MariaDB and install it again.
@@ -37,7 +37,7 @@ rm -f /etc/nginx/default.d/php.conf
 # INSTALLATION BEGINS
 #
 yum update -y
-yum install -y git
+yum install -y expect
 yum install -y unzip
 
 
