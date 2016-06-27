@@ -1,8 +1,7 @@
 #!/bin/sh
 
 ######
-######	Installation Example) emp56 user password
-######    After this script, you must edit nginx for extra configuration
+######	After this script, Read the output
 ######
 
 # Locale. It prevent error message on shell.
@@ -17,7 +16,7 @@ export LC_CTYPE=en_US.UTF-8
 # /home/thruthesky/www will be the default server root.
 # user_password is the default password of database root.
 read -p "emp username: " user
-read -p "emp password: " user_password
+read -s -p "emp password: " user_password
 
 # TEST
 # Uninstalling Enginx, PHP, MariaDB and install it again.
@@ -146,4 +145,9 @@ _EOF_
 ) > /etc/nginx/default.d/php.conf
 
 nginx
+
+
+echo "You may need to edit Nginx configuration to make it fit for your need."
+echo "Access http://x.x.x.x/phpinfo.php"
+echo "Access http://x.x.x.x/www/phpMyAdmin/index.php"
 
