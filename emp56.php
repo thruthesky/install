@@ -149,5 +149,5 @@ nginx
 
 echo "You may need to edit Nginx configuration to make it fit for your need."
 echo "Access http://x.x.x.x/phpinfo.php"
-echo "Access http://x.x.x.x/www/phpMyAdmin/index.php"
+echo "Access http://x.x.x.x/phpMyAdmin/index.php"
 
