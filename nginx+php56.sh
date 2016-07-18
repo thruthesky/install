@@ -15,21 +15,24 @@ export LC_CTYPE=en_US.UTF-8
 # Default User Setting.
 # /home/thruthesky/www will be the default server root.
 # user_password is the default password of database root.
-read -p "emp username: " user
+read -p "emp username ( for default 'www' in nginx.conf and phpinfo.php ) : " user
 read -s -p "emp password: " user_password
 
 # TEST
 # Uninstalling Enginx, PHP, MariaDB and install it again.
 # Comment out this on productio mode. ( or just leave it. It won't take any harm )
 userdel -r $user
-rm -rf phpMyAdmin*
 systemctl stop php-fpm
-systemctl stop mysql
-yum remove -y MariaDB-server MariaDB-client
-rm -rf /var/lib/mysql
-rm -f /etc/my.cnf
 
-nginx -s stop
+
+	#rm -rf phpMyAdmin*
+	#systemctl stop mysql
+	#yum remove -y MariaDB-server MariaDB-client
+	#rm -rf /var/lib/mysql
+	#rm -f /etc/my.cnf
+
+nginx -s stop			# NOTE: this may cause 'command not found'. it's not error.
+
 rm -f /etc/nginx/default.d/php.conf
 
 
@@ -62,14 +65,14 @@ echo "phpinfo();" >> /home/$user/www/phpinfo.php
 
 # Install phpMyAdmin on /home/$user/www/phpMyAdmin
 #
-wget https://files.phpmyadmin.net/phpMyAdmin/4.6.3/phpMyAdmin-4.6.3-all-languages.zip
-unzip -q phpMyAdmin-4.6.3-all-languages.zip
-mv phpMyAdmin-4.6.3-all-languages /home/$user/www/phpMyAdmin
-rm -f phpMyAdmin-4.6.3-all-languages.zip
-chown -R $user.$user /home/$user
+#wget https://files.phpmyadmin.net/phpMyAdmin/4.6.3/phpMyAdmin-4.6.3-all-languages.zip
+#unzip -q phpMyAdmin-4.6.3-all-languages.zip
+#mv phpMyAdmin-4.6.3-all-languages /home/$user/www/phpMyAdmin
+#rm -f phpMyAdmin-4.6.3-all-languages.zip
+#chown -R $user.$user /home/$user
 
 
-#yum remove -y httpd httpd-tools
+yum remove -y httpd httpd-tools
 
 
 # Install webtatic
@@ -83,45 +86,45 @@ yum install -y nginx
 
 # Install MariaDB & Start & Password Update
 #
-echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo
-echo "name=MariaDB" >> /etc/yum.repos.d/MariaDB.repo
-echo "baseurl = http://yum.mariadb.org/10.1/centos6-amd64" >> /etc/yum.repos.d/MariaDB.repo
-echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/MariaDB.repo
-echo "gpgcheck=1" >> /etc/yum.repos.d/MariaDB.repo
+#echo "[mariadb]" > /etc/yum.repos.d/MariaDB.repo
+#echo "name=MariaDB" >> /etc/yum.repos.d/MariaDB.repo
+#echo "baseurl = http://yum.mariadb.org/10.1/centos6-amd64" >> /etc/yum.repos.d/MariaDB.repo
+#echo "gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB" >> /etc/yum.repos.d/MariaDB.repo
+#echo "gpgcheck=1" >> /etc/yum.repos.d/MariaDB.repo
 
-yum clean all
-yum remove -y mariadb-libs
-yum install -y MariaDB-server MariaDB-client
-
-
-systemctl start mysql
-
-expect <<- EOS
-spawn mysql_secure_installation
-expect ": "
-send "\n"
-expect "] "
-send "y\n"
-
-expect ": "
-send "$user_password\n"
-expect ": "
-send "$user_password\n"
-
-expect "] "
-send "y\n"
-expect "] "
-send "y\n"
-expect "] "
-send "y\n"
-expect "\ "
-send "y\n"
-expect "MariaDB!"
-expect eof
-EOS
+#yum clean all
+#yum remove -y mariadb-libs
+#yum install -y MariaDB-server MariaDB-client
 
 
-systemctl stop mysql
+#systemctl start mysql
+
+#expect <<- EOS
+#spawn mysql_secure_installation
+#expect ": "
+#send "\n"
+#expect "] "
+#send "y\n"
+#
+#expect ": "
+#send "$user_password\n"
+#expect ": "
+#send "$user_password\n"
+#
+#expect "] "
+#send "y\n"
+#expect "] "
+#send "y\n"
+#expect "] "
+#send "y\n"
+#expect "\ "
+#send "y\n"
+#expect "MariaDB!"
+#expect eof
+#EOS
+
+
+#systemctl stop mysql
 
 
 # Install PHP5.6w & Run
@@ -150,4 +153,4 @@ nginx
 
 echo "You may need to edit Nginx configuration to make it fit for your need."
 echo "Access http://x.x.x.x/phpinfo.php"
-echo "NOTE: It installed MariaDB 10.x but it stopped. If you want, you have to run MariaDB"
+# echo "NOTE: It installed MariaDB 10.x but it stopped. If you want, you have to run MariaDB"
