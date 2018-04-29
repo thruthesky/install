@@ -1,7 +1,7 @@
 #/bin/sh
 
 db_user=dev
-db_passwd=Wc~0453224133
+db_passwd=xxxxxxxxx
 db_name=dev
 dir_backup=/home/backup/data/database
 error_log=$dir_backup/error.log
