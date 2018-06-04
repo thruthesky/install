@@ -4,6 +4,9 @@
 # File name is consisted with 'week-hour'. So, you can run this every hour with cronjob.
 # Or you can run it twice a day.
 #
+# @how-to
+# @see https://docs.google.com/document/d/1ZpGsmKhnjqE9estnjr_vl9DcjdpeMSgxTz4B4eoTm7c/edit#heading=h.q5ifyy9q2ss5
+#
 # Example of crontab.
 #
 #       * 1,13 * * * ~/mysql-backup-v2.0.sh
